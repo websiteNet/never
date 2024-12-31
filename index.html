@@ -1,73 +1,62 @@
 <!DOCTYPE html>
-<html lang="pt-bt">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Criptografia AES</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      background-color: #f4f4f9;
-    }
-    .container {
-      text-align: center;
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    }
-    textarea {
-      width: 100%;
-      height: 100px;
-      margin-bottom: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      padding: 8px;
-      font-size: 14px;
-    }
-    .output {
-      margin-top: 10px;
-      font-size: 14px;
-      color: #333;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Encryptor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        textarea {
+            width: 80%;
+            height: 100px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .output {
+            margin-top: 20px;
+            font-weight: bold;
+            color: green;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Criptografia AES</h2>
-    <textarea id="inputText" placeholder="Digite o texto aqui..."></textarea>
-    <div class="output" id="outputText"></div>
-    <p>O texto criptografado será copiado automaticamente.</p>
-  </div>
+    <h1>HTML Encryptor</h1>
+    <textarea id="inputText" placeholder="Enter your HTML here..."></textarea><br>
+    <button onclick="encryptHTML()">Encrypt and Copy</button>
+    <div class="output" id="outputMessage"></div>
 
-  <script>
-    const inputText = document.getElementById("inputText");
-    const outputText = document.getElementById("outputText");
-    const encryptionKey = "chave-secreta123"; // Altere a chave para maior segurança
+    <script>
+        function encryptHTML() {
+            const input = document.getElementById('inputText').value;
 
-    inputText.addEventListener("input", () => {
-      const plaintext = inputText.value;
-      if (plaintext.trim() !== "") {
-        // Criptografar o texto
-        const encrypted = CryptoJS.AES.encrypt(plaintext, encryptionKey).toString();
+            if (!input) {
+                alert("Please enter some HTML!");
+                return;
+            }
 
-        // Exibir o texto criptografado
-        outputText.textContent = "Criptografado: " + encrypted;
+            // Simples lógica de criptografia
+            const encrypted = btoa(input); // Codifica em Base64
 
-        // Copiar automaticamente para a área de transferência
-        navigator.clipboard.writeText(encrypted).catch(err => {
-          console.error("Erro ao copiar para a área de transferência:", err);
-        });
-      } else {
-        outputText.textContent = "";
-      }
-    });
-  </script>
+            // Copia para a área de transferência
+            navigator.clipboard.writeText(encrypted)
+                .then(() => {
+                    document.getElementById('outputMessage').innerText = 
+                        "Encrypted HTML copied to clipboard!";
+                })
+                .catch(err => {
+                    console.error("Error copying text: ", err);
+                    document.getElementById('outputMessage').innerText = 
+                        "Failed to copy to clipboard.";
+                });
+        }
+    </script>
 </body>
 </html>
